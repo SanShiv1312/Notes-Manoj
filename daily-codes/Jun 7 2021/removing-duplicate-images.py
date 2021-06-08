@@ -1,3 +1,5 @@
+import os
+
 def remove_duplicate(files):
     # Accessing each element to compare with two loops
     for i in files:
@@ -12,7 +14,7 @@ def remove_duplicate(files):
                 # If so removing it from directory
                 if (file1.read() == file2.read()):
                     print("Same file detected", i, j)
-                    os.system("rm "+i)
+                    os.system("rm '"+i+"'")
                     # Upating the files variable
                     files = os.listdir()
                     break
