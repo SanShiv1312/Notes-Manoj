@@ -1,12 +1,12 @@
 import os
-
+# Don't run this with large directory and big files \__(''/)__/
 def remove_duplicate(files):
     # Accessing each element to compare with two loops
     for i in files:
         # In second loop check the `i`  file with another file in directory
         for j in files:
             # Ignoring same file to be checked again
-            if i != j:
+            if i != j and os.path.isfile(i) and os.path.isfile(j):
                 # Opening the files to read with binary
                 file1 = open(i,'rb')
                 file2 = open(j,'rb')
@@ -17,7 +17,12 @@ def remove_duplicate(files):
                     os.system("rm '"+i+"'")
                     # Upating the files variable
                     files = os.listdir()
+                    file2.close()
                     break
+                else:
+                    file1.close()
+                    file2.close()
+                    
 
 if __name__ == '__main__':
     files = os.listdir()
