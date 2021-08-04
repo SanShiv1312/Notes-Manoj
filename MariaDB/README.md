@@ -16,7 +16,7 @@ MariaDB is forked out of MySQL. So, there are lot of similarities between these 
 |int (Integer)|It represents a number without a decimal point. Here the size argument is not used.
 |smallint |It is same as integer but the default size may be smaller than Integer.
 |float|It represents a floating point number in base 10 exponential notation and may define a precision up to a maximum of 64.
-|real |It is same as float, except the size argument is not used and may define aprecision up to a maximum of 64.|
+|real |It is same as float, except the size argument is not used and may define a precision up to a maximum of 64.|
 |double|Same as real except the precision may exceed 64.|
 |DATE| It is used to specify date format YYYY-MM-DD. Its supported range is from '1000-01-01' to '9999-12-31'.|
 
@@ -257,7 +257,7 @@ MariaDB [dbms_sample]> DESC sample;
 ```
 
 #### TRUNCATE
-`TRUNCATE` will delete all the data but it will not modify the structre of the table
+`TRUNCATE` will delete all the data but it will not modify the structure of the table
 ```sql
 MariaDB [dbms_sample]> TRUNCATE class;
 Query OK, 0 rows affected (0.703 sec)
@@ -267,8 +267,8 @@ Empty set (0.116 sec)
 ```
 
 #### DROP TABLE
-`DROP TABLE` will delete all the data including the structre of the table.
-<br>It is not recommened to use `DROP TABLE` everytime, `TRUNCATE` first and then use `DROP TABLE`
+`DROP TABLE` will delete all the data including the structure of the table.
+<br>It is not recommended to use `DROP TABLE` every time, `TRUNCATE` first and then use `DROP TABLE`
 ```sql
 MariaDB [dbms_sample]> DROP TABLE class;
 Query OK, 0 rows affected (0.093 sec)
@@ -278,7 +278,7 @@ Empty set (0.001 sec)
 ```
 
 ### Comments
-Comment part will be ignored in the sql. we can use this to 
+Comment part will be ignored in the SQL queries. we can use this to 
 describe the commands.
 
 ##### In SQL it has two types of comments
@@ -286,10 +286,10 @@ describe the commands.
 2) Multi line comments
 
 #### Single Line Comments
-Single line comments will igrone the complete one line. We have 
+Single line comments will ignore the complete one line. We have 
 to add `--` in the start to represent it is a comment.
 ```sql
-MariaDB [dbms_sample]> --create table with name as char with the length of 25 and register number with the interger type
+MariaDB [dbms_sample]> --create table with name as char with the length of 25 and register number with the integer type
 MariaDB [dbms_sample]> CREATE TABLE student (name char(25), registerName int);
 Query OK, 0 rows affected (0.714 sec)
 ```
@@ -337,7 +337,7 @@ Constraint will allow data with some condition
 >1) Column constraint: **Column constraint** will constraints only to column at a time
 
 >2) Table constraint: **Table constraint** will declare the
-contraints the two or more column at same time
+constraints the two or more column at same time
 
 #### Types of constraints:
 - `UNIQUE`
@@ -365,7 +365,7 @@ ERROR 1364 (HY000): Field 'registerNo' doesn't have a default value
 Here, In third line we haven't passed registerNo data. So, the tuple is not inserted into the table
 
 #### UNIQUE
-`UNIQUE` Constarint will allow duplication in the specified column and shows warning
+`UNIQUE` Constraint will allow duplication in the specified column and shows warning
 ```sql
 MariaDB [dbms_sample]> CREATE TABLE student1 (name char(25), registerNumber int UNIQUE);
 Query OK, 0 rows affected (0.749 sec)
@@ -382,7 +382,7 @@ Alternate key is method to have one or more columns has unique to represent one 
 but all the unique key can't have `PRIMARY KEY`. `PRIMARY KEY` is allotted to only one column
 
 #### PRIMARY KEY
-`PRIMARY KEY` Constarint will not allow duplication in the specified column. Primary key is allowed to only one column
+`PRIMARY KEY` Constraint will not allow duplication in the specified column. Primary key is allowed to only one column
 ```sql
 MariaDB [dbms_sample]> CREATE TABLE student2 (name char(25), registerNumber int NOT NULL PRIMARY KEY);
 Query OK, 0 rows affected (0.234 sec)
@@ -441,7 +441,7 @@ ERROR 4025 (23000): CONSTRAINT `batch24.age` failed for `dbms_sample`.`batch24`
 ```
 
 #### FOREIGN KEY
-`FOREIGN KEY` is used to take only the primary key values presented in mentioned column. This values can be duplicated but it should contain in dervied table
+`FOREIGN KEY` is used to take only the primary key values presented in mentioned column. This values can be duplicated but it should contain in derived table
 
 ```sql
 MariaDB [dbms_sample]> desc student2;
@@ -481,8 +481,33 @@ ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
 
 ```
 
+#### COMPOSITE KEY
+`COMPOSITE KEY` is a method to assign constraints at the end of table. where either two or more column should have different data from previous. At least one column should have different value. In the below queries, registerNo and mobileNo column combines and makes UNIQUE. We can also use `PRIMARY KEY` because two or more columns will be treated as one `PRIMARY KEY` column
+`Eg: registerNo-mobileNo (40110901-1212101920)` 
+
+
+```sql
+MariaDB [dbms_sample]> CREATE TABLE student3 (registerNo int, mobileNo int(10), name char(50), UNIQUE (registerNo, mobileNo));
+ERROR 1050 (42S01): Table 'student3' already exists
+MariaDB [dbms_sample]> drop table student3;
+Query OK, 0 rows affected (0.062 sec)
+
+MariaDB [dbms_sample]> CREATE TABLE student3 (registerNo int, mobileNo int(10), name char(50), UNIQUE (registerNo, mobileNo));
+Query OK, 0 rows affected (0.319 sec)
+
+MariaDB [dbms_sample]> INSERT INTO student3 VALUES (40110901, 1212101920, "Manoj");
+Query OK, 1 row affected (0.029 sec)
+
+MariaDB [dbms_sample]> INSERT INTO student3 VALUES (40110902, 1212101920, "Paramsetti");
+Query OK, 1 row affected (0.022 sec)
+
+MariaDB [dbms_sample]> INSERT INTO student3 VALUES (40110901, 1212101920, "Jonam");
+ERROR 1062 (23000): Duplicate entry '40110901-1212101920' for key 'registerNo' 
+```
+
 ## Clauses
-#### query inside query
+
+#### Sub Query
 ```sql
 MariaDB [dbms_sample]> SELECT * FROM student1;
 +------------+----------------+
