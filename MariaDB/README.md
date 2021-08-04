@@ -377,6 +377,10 @@ MariaDB [dbms_sample]> INSERT INTO student1 values ("Manoj", 40110901);
 ERROR 1062 (23000): Duplicate entry '40110901' for key 'registerNumber'
 ```
 
+#### ALTERNATE KEY
+Alternate key is method to have one or more columns has unique to represent one tuple.
+but all the unique key can't have `PRIMARY KEY`. `PRIMARY KEY` is allotted to only one column
+
 #### PRIMARY KEY
 `PRIMARY KEY` Constarint will not allow duplication in the specified column. Primary key is allowed to only one column
 ```sql
