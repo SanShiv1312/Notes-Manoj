@@ -488,11 +488,6 @@ ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
 
 ```sql
 MariaDB [dbms_sample]> CREATE TABLE student3 (registerNo int, mobileNo int(10), name char(50), UNIQUE (registerNo, mobileNo));
-ERROR 1050 (42S01): Table 'student3' already exists
-MariaDB [dbms_sample]> drop table student3;
-Query OK, 0 rows affected (0.062 sec)
-
-MariaDB [dbms_sample]> CREATE TABLE student3 (registerNo int, mobileNo int(10), name char(50), UNIQUE (registerNo, mobileNo));
 Query OK, 0 rows affected (0.319 sec)
 
 MariaDB [dbms_sample]> INSERT INTO student3 VALUES (40110901, 1212101920, "Manoj");
