@@ -502,6 +502,46 @@ ERROR 1062 (23000): Duplicate entry '40110901-1212101920' for key 'registerNo'
 
 ## Clauses
 
+#### WHERE
+`WHERE` is a keyword to apply condition on query
+```sql
+MariaDB [dbms_sample]> SELECT * FROM student3;
++------------+------------+------------+
+| registerNo | mobileNo   | name       |
++------------+------------+------------+
+|   40110901 | 1212101920 | Manoj      |
+|   40110902 | 1212101920 | Paramsetti |
++------------+------------+------------+
+2 rows in set (0.124 sec)
+
+MariaDB [dbms_sample]> SELECT * FROM student3 WHERE registerNo=40110901;
++------------+------------+-------+
+| registerNo | mobileNo   | name  |
++------------+------------+-------+
+|   40110901 | 1212101920 | Manoj |
++------------+------------+-------+
+1 row in set (0.061 sec)
+```
+#### AND
+`AND` is a keyword used to check between two condition. It will be will true, when two condition satisfies
+```sql
+MariaDB [dbms_sample]> SELECT * FROM student3;
++------------+------------+------------+
+| registerNo | mobileNo   | name       |
++------------+------------+------------+
+|   40110901 | 1212101920 | Manoj      |
+|   40110902 | 1212101920 | Paramsetti |
++------------+------------+------------+
+2 rows in set (0.124 sec)
+
+MariaDB [dbms_sample]> SELECT * FROM student3 WHERE registerNo=40110901 AND mobileNo=1212101920;
++------------+------------+-------+
+| registerNo | mobileNo   | name  |
++------------+------------+-------+
+|   40110901 | 1212101920 | Manoj |
++------------+------------+-------+
+1 row in set (1.456 sec)
+```
 #### Sub Query
 ```sql
 MariaDB [dbms_sample]> SELECT * FROM student1;
@@ -529,7 +569,6 @@ MariaDB [dbms_sample]> SELECT * FROM student1 WHERE registerNumber=(SELECT regis
 +------------+----------------+
 1 row in set (0.043 sec)
 ```
-
 ## References
 [SQL Tutorial - JavaPoint](https://www.javatpoint.com/sql-tutorial)
 <br>
