@@ -712,6 +712,86 @@ MariaDB [dbms_sample]> SELECT B.staff_id, B.staff_name, A.RegisterNo, B.BatchNo,
 7 rows in set (0.001 sec)
 ```
 
+### More `SELECT` Queries
+
+#### CONCAT
+`CONCAT` is a key word to join string
+```sql
+MariaDB [dbms_sample]>  SELECT CONCAT ('FIRST', 'SECOND');  
++----------------------------+
+| CONCAT ('FIRST', 'SECOND') |
++----------------------------+
+| FIRSTSECOND                |
++----------------------------+
+1 row in set (0.109 sec)
+```
+
+#### UNIQUE & DISTINCT
+`UNIQUE` & `DISTINCT` are the keywords to get the unique or distinct values in the specified column
+```sql
+MariaDB [dbms_sample]> SELECT UNIQUE BatchNo FROM Course1;
++---------+
+| BatchNo |
++---------+
+|       1 |
+|       2 |
+|       3 |
+|       5 |
++---------+
+4 rows in set (0.112 sec)
+```
+
+```sql
+MariaDB [dbms_sample]> SELECT DISTINCT BatchNo FROM Course1;
++---------+
+| BatchNo |
++---------+
+|       1 |
+|       2 |
+|       3 |
+|       5 |
++---------+
+4 rows in set (0.200 sec)
+```
+
+#### COUNT
+`COUNT` is a built-in function to count the number of entries
+```sql
+MariaDB [dbms_sample]> SELECT COUNT(*) FROM Course1;
++----------+
+| COUNT(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.000 sec)
+
+MariaDB [dbms_sample]> SELECT COUNT(*) FROM Course1 where BatchNo=2;
++----------+
+| COUNT(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.001 sec)
+
+```
+
+#### IN
+`IN` is a keyword to check the matched data in the array
+```sql
+MariaDB [dbms_sample]> SELECT * FROM Course1 WHERE EnrolledDate IN ('2020-08-08', '2020-08-09');
++------------+-------------+--------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo |
++------------+-------------+--------------+---------+
+|   40110901 | Manoj       | 2020-08-08   |       1 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |
+|   50110901 | Prince      | 2020-08-09   |       2 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |
++------------+-------------+--------------+---------+
+5 rows in set (0.058 sec)
+
+```
+
 
 ## References
 [SQL Tutorial - JavaPoint](https://www.javatpoint.com/sql-tutorial)
