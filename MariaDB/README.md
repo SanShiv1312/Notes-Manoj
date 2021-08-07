@@ -4,7 +4,7 @@
 MySQL is a Swedish company. The name of the parent company that created this DB is MySQL AB. The first version of the software was launched in May 1995. Currently, MySQL is managed by Oracle.
 
 ## About MariaDB
-MariaDB is forked out of MySQL. So, there are lot of similarities between these two databases. 
+MariaDB is forked out of MySQL. So, there are lot of similarities between these two databases.
 
 ## Common Data Types
 |Data Type| Description|
@@ -112,7 +112,7 @@ MariaDB [dbms_sample]> DESC sample;
 ```
 
 #### INSERT
-`INSERT` is a keyword to add data into the table. 
+`INSERT` is a keyword to add data into the table.
 ```sql
 MariaDB [dbms_sample]> INSERT INTO sample values(1, "Manoj");
 Query OK, 1 row affected (0.057 sec)
@@ -278,7 +278,7 @@ Empty set (0.001 sec)
 ```
 
 ### Comments
-Comment part will be ignored in the SQL queries. we can use this to 
+Comment part will be ignored in the SQL queries. we can use this to
 describe the commands.
 
 ##### In SQL it has two types of comments
@@ -286,7 +286,7 @@ describe the commands.
 2) Multi line comments
 
 #### Single Line Comments
-Single line comments will ignore the complete one line. We have 
+Single line comments will ignore the complete one line. We have
 to add `--` in the start to represent it is a comment.
 ```sql
 MariaDB [dbms_sample]> --create table with name as char with the length of 25 and register number with the integer type
@@ -296,7 +296,7 @@ Query OK, 0 rows affected (0.714 sec)
 Here the SQL ignored the first line completely.
 
 #### Multi Line Comments
-Multi line comment will ignore some part of lines with 
+Multi line comment will ignore some part of lines with
 `/*COMMENT*/`. we can ignore only some part of text in one line which will not consider the full line as comment
 ```sql
 MariaDB [dbms_sample]> DESC student /*describing the table*/;
@@ -483,7 +483,7 @@ ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
 
 #### COMPOSITE KEY
 `COMPOSITE KEY` is a method to assign constraints at the end of table. where either two or more column should have different data from previous. At least one column should have different value. In the below queries, registerNo and mobileNo column combines and makes UNIQUE. We can also use `PRIMARY KEY` because two or more columns will be treated as one `PRIMARY KEY` column
-`Eg: registerNo-mobileNo (40110901-1212101920)` 
+`Eg: registerNo-mobileNo (40110901-1212101920)`
 
 
 ```sql
@@ -497,7 +497,7 @@ MariaDB [dbms_sample]> INSERT INTO student3 VALUES (40110902, 1212101920, "Param
 Query OK, 1 row affected (0.022 sec)
 
 MariaDB [dbms_sample]> INSERT INTO student3 VALUES (40110901, 1212101920, "Jonam");
-ERROR 1062 (23000): Duplicate entry '40110901-1212101920' for key 'registerNo' 
+ERROR 1062 (23000): Duplicate entry '40110901-1212101920' for key 'registerNo'
 ```
 
 ## Clauses
@@ -592,7 +592,7 @@ MariaDB [dbms_sample]> select registerNo as regno, name as StudentName from stud
 | 40110904 | Santhosh    |
 +----------+-------------+
 5 rows in set (0.001 sec)
-``` 
+```
 
 #### Sub Query
 ```sql
@@ -613,7 +613,7 @@ MariaDB [dbms_sample]> SELECT * FROM student2;
 +------------+----------------+
 2 rows in set (0.001 sec)
 
-MariaDB [dbms_sample]> SELECT * FROM student1 WHERE registerNumber=(SELECT registerNumber FROM student2 WHERE registerNumber=40110901); 
+MariaDB [dbms_sample]> SELECT * FROM student1 WHERE registerNumber=(SELECT registerNumber FROM student2 WHERE registerNumber=40110901);
 +------------+----------------+
 | name       | registerNumber |
 +------------+----------------+
@@ -789,7 +789,78 @@ MariaDB [dbms_sample]> SELECT * FROM Course1 WHERE EnrolledDate IN ('2020-08-08'
 |   50110902 | Santhosh    | 2020-08-09   |       2 |
 +------------+-------------+--------------+---------+
 5 rows in set (0.058 sec)
+```
 
+#### MAX
+`MAX` is a built-in function to check the maximum value in the specified column
+```sql
+MariaDB [sandeep]> SELECT * FROM student;
++------+---------+
+| sid  | sname   |
++------+---------+
+|    1 | Mark    |
+|    2 | Manas   |
+|    3 | SanShiv |
+|    4 | Manoj   |
+|    5 | 'Manoj' |
++------+---------+
+5 rows in set (0.078 sec)
+
+MariaDB [sandeep]> SELECT MAX(sid) FROM student;
++----------+
+| MAX(sid) |
++----------+
+|        5 |
++----------+
+1 row in set (0.006 sec)
+```
+
+#### MIN
+`MIN` is a built-in function to check the minimum value in the specified column
+```sql
+MariaDB [sandeep]> SELECT * FROM student;
++------+---------+
+| sid  | sname   |
++------+---------+
+|    1 | Mark    |
+|    2 | Manas   |
+|    3 | SanShiv |
+|    4 | Manoj   |
+|    5 | 'Manoj' |
++------+---------+
+5 rows in set (0.078 sec)
+
+MariaDB [sandeep]> SELECT MIN(sid) FROM student;
++----------+
+| MIN(sid) |
++----------+
+|        1 |
++----------+
+1 row in set (0.001 sec)
+```
+
+#### SUM
+`SUM` is a built-in function to add all the values of column
+```sql
+MariaDB [sandeep]> SELECT * FROM sales;
++----------------------+-------+
+| ProductName          | Price |
++----------------------+-------+
+| Lenovo E31-45 Laptop | 50000 |
+| Dell Inspiron 3501   | 70000 |
+| Acer Nitro           | 85000 |
+| HP Wireless Mouse    |   500 |
+| MI Wireless Keyboard |  2000 |
++----------------------+-------+
+5 rows in set (0.001 sec)
+
+MariaDB [sandeep]> SELECT SUM(Price) FROM sales;
++------------+
+| SUM(Price) |
++------------+
+|     207500 |
++------------+
+1 row in set (0.002 sec)
 ```
 
 
