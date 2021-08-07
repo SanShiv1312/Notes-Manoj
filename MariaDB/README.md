@@ -522,6 +522,7 @@ MariaDB [dbms_sample]> SELECT * FROM student3 WHERE registerNo=40110901;
 +------------+------------+-------+
 1 row in set (0.061 sec)
 ```
+
 #### AND
 `AND` is a keyword used to check between two condition. It will be will true, when two condition satisfies
 ```sql
@@ -542,6 +543,57 @@ MariaDB [dbms_sample]> SELECT * FROM student3 WHERE registerNo=40110901 AND mobi
 +------------+------------+-------+
 1 row in set (1.456 sec)
 ```
+
+#### OR
+`AND` is a keyword used to check between two condition. It will be will true, when at least one condition is satisfied
+```sql
+MariaDB [dbms_sample]> SELECT * FROM student3;
++------------+------------+------------+
+| registerNo | mobileNo   | name       |
++------------+------------+------------+
+|   40110901 | 1212101920 | Manoj      |
+|   40110902 | 1212101921 | Paramsetti |
++------------+------------+------------+
+2 rows in set (0.124 sec)
+
+MariaDB [dbms_sample]> SELECT * FROM student3 WHERE registerNo=40110901 OR mobileNo=1212101921;
++------------+------------+------------+
+| registerNo | mobileNo   | name       |
++------------+------------+------------+
+|   40110901 | 1212101920 | Manoj      |
+|   40110902 | 1212101921 | Paramsetti |
++------------+------------+------------+
+1 row in set (1.456 sec)
+```
+
+#### AS
+`AS` is a keyword to give temporary name to column
+```sql
+MariaDB [dbms_sample]> select * from student;
++------------+------------+
+| registerNo | name       |
++------------+------------+
+|   40110901 | Manoj      |
+|   44011090 | Manoj      |
+|   40110902 | Prince     |
+|   40110903 | Anwar Khan |
+|   40110904 | Santhosh   |
++------------+------------+
+5 rows in set (0.001 sec)
+
+MariaDB [dbms_sample]> select registerNo as regno, name as StudentName from student;
++----------+-------------+
+| regno    | StudentName |
++----------+-------------+
+| 40110901 | Manoj       |
+| 44011090 | Manoj       |
+| 40110902 | Prince      |
+| 40110903 | Anwar Khan  |
+| 40110904 | Santhosh    |
++----------+-------------+
+5 rows in set (0.001 sec)
+``` 
+
 #### Sub Query
 ```sql
 MariaDB [dbms_sample]> SELECT * FROM student1;
@@ -569,6 +621,98 @@ MariaDB [dbms_sample]> SELECT * FROM student1 WHERE registerNumber=(SELECT regis
 +------------+----------------+
 1 row in set (0.043 sec)
 ```
+
+## SQL JOIN
+
+For this topic, I'm using two new table with more columns
+
+
+**TABLE 1 | (Course1)**
+```sql
++------------+-------------+--------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo |
++------------+-------------+--------------+---------+
+|   40110901 | Manoj       | 2020-08-08   |       1 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |
+|   50110901 | Prince      | 2020-08-09   |       2 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |
+|   70923032 | Moses       | 2020-08-11   |       5 |
++------------+-------------+--------------+---------+
+```
+
+**Table 2 | (course1_teachers)**
+```sql
++----------+---------------+---------+
+| staff_id | staff_name    | BatchNo |
++----------+---------------+---------+
+|   401123 | Kamalesh      |       3 |
+|   203211 | Ulagamuthalvi |       2 |
+|   401125 | Jacob         |       1 |
+|   320002 | James         |       4 |
++----------+---------------+---------+
+```
+
+**Graphical Representation for Join Types:**
+<p align="center">
+   <img src='https://letsdobigdata.files.wordpress.com/2016/03/joins.png?w=800'></img>
+</p>
+
+#### INNER JOIN
+Inner join is a method to get the intersection between two data. In the below example, I'm trying to display the teacher assigned for each student
+```sql
+MariaDB [dbms_sample]> SELECT staff_id, staff_name, RegisterNo, C.BatchNo, StudentName FROM course1_teachers c, Course1 C WHERE c.BatchNo = C.BatchNo;
++----------+---------------+------------+---------+-------------+
+| staff_id | staff_name    | RegisterNo | BatchNo | StudentName |
++----------+---------------+------------+---------+-------------+
+|   401125 | Jacob         |   40110901 |       1 | Manoj       |
+|   401125 | Jacob         |   40110902 |       1 | Paramsetti  |
+|   401125 | Jacob         |   40110903 |       1 | Shalom      |
+|   203211 | Ulagamuthalvi |   50110901 |       2 | Prince      |
+|   203211 | Ulagamuthalvi |   50110902 |       2 | Santhosh    |
+|   401123 | Kamalesh      |   60110902 |       3 | Anwar Khan  |
++----------+---------------+------------+---------+-------------+
+6 rows in set (0.001 sec)
+```
+
+#### LEFT JOIN
+`LEFT JOIN` is a keyword to show A difference B of the table
+```sql
+MariaDB [dbms_sample]> SELECT B.staff_id, B.staff_name, A.RegisterNo, A.BatchNo, A.StudentName FROM Course1 A LEFT JOIN course1_teachers B ON A.BatchNo = B.BatchNo;
++----------+---------------+------------+---------+-------------+
+| staff_id | staff_name    | RegisterNo | BatchNo | StudentName |
++----------+---------------+------------+---------+-------------+
+|   401123 | Kamalesh      |   60110902 |       3 | Anwar Khan  |
+|   203211 | Ulagamuthalvi |   50110901 |       2 | Prince      |
+|   203211 | Ulagamuthalvi |   50110902 |       2 | Santhosh    |
+|   401125 | Jacob         |   40110901 |       1 | Manoj       |
+|   401125 | Jacob         |   40110902 |       1 | Paramsetti  |
+|   401125 | Jacob         |   40110903 |       1 | Shalom      |
+|     NULL | NULL          |   70923032 |       5 | Moses       |
++----------+---------------+------------+---------+-------------+
+7 rows in set (0.051 sec)
+```
+
+#### RIGHT JOIN
+`RIGHT JOIN` is a keyword to show B difference A of the table
+```sql
+MariaDB [dbms_sample]> SELECT B.staff_id, B.staff_name, A.RegisterNo, B.BatchNo, A.StudentName FROM Course1 A RIGHT JOIN course1_teachers B ON A.BatchNo = B.BatchNo;
++----------+---------------+------------+---------+-------------+
+| staff_id | staff_name    | RegisterNo | BatchNo | StudentName |
++----------+---------------+------------+---------+-------------+
+|   401125 | Jacob         |   40110901 |       1 | Manoj       |
+|   401125 | Jacob         |   40110902 |       1 | Paramsetti  |
+|   401125 | Jacob         |   40110903 |       1 | Shalom      |
+|   203211 | Ulagamuthalvi |   50110901 |       2 | Prince      |
+|   203211 | Ulagamuthalvi |   50110902 |       2 | Santhosh    |
+|   401123 | Kamalesh      |   60110902 |       3 | Anwar Khan  |
+|   320002 | James         |       NULL |       4 | NULL        |
++----------+---------------+------------+---------+-------------+
+7 rows in set (0.001 sec)
+```
+
+
 ## References
 [SQL Tutorial - JavaPoint](https://www.javatpoint.com/sql-tutorial)
 <br>
