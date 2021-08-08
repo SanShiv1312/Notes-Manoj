@@ -6,6 +6,8 @@ MySQL is a Swedish company. The name of the parent company that created this DB 
 ## About MariaDB
 MariaDB is forked out of MySQL. So, there are lot of similarities between these two databases.
 
+---
+
 ## Common Data Types
 |Data Type| Description|
 |----------|---------|
@@ -19,6 +21,8 @@ MariaDB is forked out of MySQL. So, there are lot of similarities between these 
 |real |It is same as float, except the size argument is not used and may define a precision up to a maximum of 64.|
 |double|Same as real except the precision may exceed 64.|
 |DATE| It is used to specify date format YYYY-MM-DD. Its supported range is from '1000-01-01' to '9999-12-31'.|
+
+---
 
 ## About SQL Commands
 **Five types of SQL queries:**
@@ -42,6 +46,8 @@ MariaDB is forked out of MySQL. So, there are lot of similarities between these 
 
 **TCL commands:**
 `COMMIT`, `ROLLBACK`, `SAVEPOINT`, `SET TRANSACTION`
+
+---
 
 ## Basic SQL Commands
 
@@ -333,7 +339,7 @@ Here the below lines are comments
    /*> Name: Paramsetti, Reg No: 40110902
    /*> */
 ```
-
+---
 ## Keys & Constraints
 Constraint will allow data with some condition
 
@@ -504,6 +510,8 @@ MariaDB [dbms_sample]> INSERT INTO student3 VALUES (40110901, 1212101920, "Jonam
 ERROR 1062 (23000): Duplicate entry '40110901-1212101920' for key 'registerNo'
 ```
 
+---
+
 ## Clauses
 
 #### WHERE
@@ -625,6 +633,7 @@ MariaDB [dbms_sample]> SELECT * FROM student1 WHERE registerNumber=(SELECT regis
 +------------+----------------+
 1 row in set (0.043 sec)
 ```
+---
 
 ## SQL JOIN
 
@@ -715,6 +724,111 @@ MariaDB [dbms_sample]> SELECT B.staff_id, B.staff_name, A.RegisterNo, B.BatchNo,
 +----------+---------------+------------+---------+-------------+
 7 rows in set (0.001 sec)
 ```
+
+#### FULL JOIN
+FULL JOIN is a method to combine two tables. In simple words `LEFT JOIN` table and `RIGHT JOIN` table are taken union (A U B)
+```sql
+MariaDB [dbms_sample]> SELECT * FROM Course1 LEFT JOIN course1_teachers
+    -> ON Course1.BatchNo = course1_teachers.BatchNo
+    -> UNION
+    -> SELECT * FROM Course1 RIGHT JOIN course1_teachers
+    -> ON Course1.BatchNo = course1_teachers.BatchNo
+    -> ;
++------------+-------------+--------------+---------+----------+---------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo | staff_id | staff_name    | BatchNo |
++------------+-------------+--------------+---------+----------+---------------+---------+
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |   401123 | Kamalesh      |       3 |
+|   50110901 | Prince      | 2020-08-09   |       2 |   203211 | Ulagamuthalvi |       2 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |   203211 | Ulagamuthalvi |       2 |
+|   40110901 | Manoj       | 2020-08-08   |       1 |   401125 | Jacob         |       1 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |   401125 | Jacob         |       1 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |   401125 | Jacob         |       1 |
+|   70923032 | Moses       | 2020-08-11   |       5 |     NULL | NULL          |    NULL |
+|       NULL | NULL        | NULL         |    NULL |   320002 | James         |       4 |
++------------+-------------+--------------+---------+----------+---------------+---------+
+8 rows in set (0.002 sec)
+```
+
+#### CROSS JOIN
+`CROSS JOIN` is a keyword and method for Cartesian Product between two table. In simple words all row are mapped with another table's row
+
+**With CROSS JOIN keyword**
+```sql
+MariaDB [dbms_sample]> SELECT * FROM Course1 CROSS JOIN course1_teachers;
++------------+-------------+--------------+---------+----------+---------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo | staff_id | staff_name    | BatchNo |
++------------+-------------+--------------+---------+----------+---------------+---------+
+|   40110901 | Manoj       | 2020-08-08   |       1 |   401123 | Kamalesh      |       3 |
+|   40110901 | Manoj       | 2020-08-08   |       1 |   203211 | Ulagamuthalvi |       2 |
+|   40110901 | Manoj       | 2020-08-08   |       1 |   401125 | Jacob         |       1 |
+|   40110901 | Manoj       | 2020-08-08   |       1 |   320002 | James         |       4 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |   401123 | Kamalesh      |       3 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |   203211 | Ulagamuthalvi |       2 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |   401125 | Jacob         |       1 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |   320002 | James         |       4 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |   401123 | Kamalesh      |       3 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |   203211 | Ulagamuthalvi |       2 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |   401125 | Jacob         |       1 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |   320002 | James         |       4 |
+|   50110901 | Prince      | 2020-08-09   |       2 |   401123 | Kamalesh      |       3 |
+|   50110901 | Prince      | 2020-08-09   |       2 |   203211 | Ulagamuthalvi |       2 |
+|   50110901 | Prince      | 2020-08-09   |       2 |   401125 | Jacob         |       1 |
+|   50110901 | Prince      | 2020-08-09   |       2 |   320002 | James         |       4 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |   401123 | Kamalesh      |       3 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |   203211 | Ulagamuthalvi |       2 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |   401125 | Jacob         |       1 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |   320002 | James         |       4 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |   401123 | Kamalesh      |       3 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |   203211 | Ulagamuthalvi |       2 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |   401125 | Jacob         |       1 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |   320002 | James         |       4 |
+|   70923032 | Moses       | 2020-08-11   |       5 |   401123 | Kamalesh      |       3 |
+|   70923032 | Moses       | 2020-08-11   |       5 |   203211 | Ulagamuthalvi |       2 |
+|   70923032 | Moses       | 2020-08-11   |       5 |   401125 | Jacob         |       1 |
+|   70923032 | Moses       | 2020-08-11   |       5 |   320002 | James         |       4 |
++------------+-------------+--------------+---------+----------+---------------+---------+
+28 rows in set (0.001 sec)
+```
+
+**Without CROSS JOIN Keyword**
+```sql
+MariaDB [dbms_sample]> SELECT * FROM Course1, course1_teachers;
++------------+-------------+--------------+---------+----------+---------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo | staff_id | staff_name    | BatchNo |
++------------+-------------+--------------+---------+----------+---------------+---------+
+|   40110901 | Manoj       | 2020-08-08   |       1 |   401123 | Kamalesh      |       3 |
+|   40110901 | Manoj       | 2020-08-08   |       1 |   203211 | Ulagamuthalvi |       2 |
+|   40110901 | Manoj       | 2020-08-08   |       1 |   401125 | Jacob         |       1 |
+|   40110901 | Manoj       | 2020-08-08   |       1 |   320002 | James         |       4 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |   401123 | Kamalesh      |       3 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |   203211 | Ulagamuthalvi |       2 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |   401125 | Jacob         |       1 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |   320002 | James         |       4 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |   401123 | Kamalesh      |       3 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |   203211 | Ulagamuthalvi |       2 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |   401125 | Jacob         |       1 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |   320002 | James         |       4 |
+|   50110901 | Prince      | 2020-08-09   |       2 |   401123 | Kamalesh      |       3 |
+|   50110901 | Prince      | 2020-08-09   |       2 |   203211 | Ulagamuthalvi |       2 |
+|   50110901 | Prince      | 2020-08-09   |       2 |   401125 | Jacob         |       1 |
+|   50110901 | Prince      | 2020-08-09   |       2 |   320002 | James         |       4 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |   401123 | Kamalesh      |       3 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |   203211 | Ulagamuthalvi |       2 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |   401125 | Jacob         |       1 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |   320002 | James         |       4 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |   401123 | Kamalesh      |       3 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |   203211 | Ulagamuthalvi |       2 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |   401125 | Jacob         |       1 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |   320002 | James         |       4 |
+|   70923032 | Moses       | 2020-08-11   |       5 |   401123 | Kamalesh      |       3 |
+|   70923032 | Moses       | 2020-08-11   |       5 |   203211 | Ulagamuthalvi |       2 |
+|   70923032 | Moses       | 2020-08-11   |       5 |   401125 | Jacob         |       1 |
+|   70923032 | Moses       | 2020-08-11   |       5 |   320002 | James         |       4 |
++------------+-------------+--------------+---------+----------+---------------+---------+
+28 rows in set (0.001 sec)
+```
+
+--- 
 
 ### More `SELECT` Queries
 
@@ -867,9 +981,125 @@ MariaDB [sandeep]> SELECT SUM(Price) FROM sales;
 1 row in set (0.002 sec)
 ```
 
+#### ORDER BY | (Descending)
+`ORDER BY` with `DESC` will show the specified column(s) in descending order
+
+```sql
+MariaDB [dbms_sample]> SELECT * FROM Course1 ORDER BY EnrolledDate DESC;
++------------+-------------+--------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo |
++------------+-------------+--------------+---------+
+|   70923032 | Moses       | 2020-08-11   |       5 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |
+|   50110901 | Prince      | 2020-08-09   |       2 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |
+|   40110901 | Manoj       | 2020-08-08   |       1 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |
++------------+-------------+--------------+---------+
+7 rows in set (0.001 sec)
+
+```
+
+#### ORDER BY | (Ascending)
+`ORDER BY` with `ASC` will show the specified column(s) in ascending order
+```sql
+MariaDB [dbms_sample]> SELECT * FROM Course1 ORDER BY EnrolledDate ASC;
++------------+-------------+--------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo |
++------------+-------------+--------------+---------+
+|   40110901 | Manoj       | 2020-08-08   |       1 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |
+|   50110901 | Prince      | 2020-08-09   |       2 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |
+|   70923032 | Moses       | 2020-08-11   |       5 |
++------------+-------------+--------------+---------+
+7 rows in set (0.001 sec)
+```
+
+#### ORDER BY | (RANDOM)
+`RAND()` is a built-in function to give tuples in random order
+```sql
+MariaDB [dbms_sample]> SELECT * FROM Course1 ORDER BY RAND();
++------------+-------------+--------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo |
++------------+-------------+--------------+---------+
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |
+|   70923032 | Moses       | 2020-08-11   |       5 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |
+|   50110901 | Prince      | 2020-08-09   |       2 |
+|   50110902 | Santhosh    | 2020-08-09   |       2 |
+|   40110901 | Manoj       | 2020-08-08   |       1 |
++------------+-------------+--------------+---------+
+7 rows in set (0.001 sec)
+```
+
+#### LIMIT
+`LIMIT` is a keyword to limit the selected data
+```sql
+MariaDB [dbms_sample]> SELECT * FROM Course1 LIMIT 3;
++------------+-------------+--------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo |
++------------+-------------+--------------+---------+
+|   40110901 | Manoj       | 2020-08-08   |       1 |
+|   40110902 | Paramsetti  | 2020-08-08   |       1 |
+|   40110903 | Shalom      | 2020-08-08   |       1 |
++------------+-------------+--------------+---------+
+3 rows in set (0.001 sec)
+```
+
+#### Copy another table
+```sql
+MariaDB [dbms_sample]> INSERT INTO course2_teachers SELECT * FROM course1_teachers C;
+Query OK, 4 rows affected (0.060 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [dbms_sample]> SELECT * FROM course2_teachers;
++----------+---------------+---------+
+| staff_id | staff_name    | BatchNo |
++----------+---------------+---------+
+|   401123 | Kamalesh      |       3 |
+|   203211 | Ulagamuthalvi |       2 |
+|   401125 | Jacob         |       1 |
+|   320002 | James         |       4 |
++----------+---------------+---------+
+4 rows in set (0.001 sec)
+```
+
+#### GROUP BY
+The `GROUP BY` statement groups rows that have the same values into summary rows, like "find the number of customers in each country". The `GROUP BY` statement is often used with aggregate functions (`COUNT()`, `MAX()`, `MIN()`, `SUM()`, `AVG()`) to group the result-set by one or more columns.
+```sql
+MariaDB [dbms_sample]> SELECT * FROM Course1 GROUP BY BatchNo;
++------------+-------------+--------------+---------+
+| RegisterNo | StudentName | EnrolledDate | BatchNo |
++------------+-------------+--------------+---------+
+|   40110901 | Manoj       | 2020-08-08   |       1 |
+|   50110901 | Prince      | 2020-08-09   |       2 |
+|   60110902 | Anwar Khan  | 2020-08-10   |       3 |
+|   70923032 | Moses       | 2020-08-11   |       5 |
++------------+-------------+--------------+---------+
+4 rows in set (0.001 sec)
+
+MariaDB [dbms_sample]> SELECT count(*), BatchNo FROM Course1 GROUP BY BatchNo;
++----------+---------+
+| count(*) | BatchNo |
++----------+---------+
+|        3 |       1 |
+|        2 |       2 |
+|        1 |       3 |
+|        1 |       5 |
++----------+---------+
+4 rows in set (0.001 sec)
+```
+---
 
 ## References
 [SQL Tutorial - JavaPoint](https://www.javatpoint.com/sql-tutorial)
+<br>
+[SQL Group By - W3Schools](https://www.w3schools.com/sql/sql_groupby.asp)
 <br>
 [MariaDB vs MySql - softwaretestinghelp](https://www.softwaretestinghelp.com/mariadb-vs-mysql/)
 <br>
