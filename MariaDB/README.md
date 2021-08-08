@@ -70,7 +70,7 @@ MariaDB [(none)]> show databases;
 ```
 
 #### USE
-`USE` is a keyword to use a specified table.
+`USE` is a keyword to use a specified database.
 ```sql
 MariaDB [(none)]> USE dbms_sample;
 Database changed
@@ -86,7 +86,7 @@ Query OK, 0 rows affected (0.297 sec)
 Here, the `dbms_sample`, `number`, `name` is a user-defined name (Any name can be given to table name and column name but it is recommended to name with lower case)
 
 #### SHOW TABLES
-`SHOW TABLES` is a query to list all tables in the server
+`SHOW TABLES` is a query to list all tables in the database
 ```sql
 MariaDB [dbms_sample]> SHOW tables;
 +-----------------------+
@@ -152,7 +152,7 @@ MariaDB [dbms_sample]> SELECT * FROM sample;
 +--------+------------+
 2 rows in set (0.001 sec)
 ```
-If `WHERE` is not specified all the tuples will be updated
+If `WHERE` is not specified then all the tuples will be updated
 
 #### DELETE
 `DELETE` is a keyword to remove tuples.
@@ -168,6 +168,7 @@ MariaDB [dbms_sample]> SELECT * FROM sample;
 +--------+-------+
 1 row in set (0.001 sec)
 ```
+If `WHERE` is not mentioned then all the data in the table will be deleted
 
 #### ALTER
 `ALTER` is a keyword to modify the structure of the table.<br>
@@ -287,7 +288,9 @@ describe the commands.
 
 #### Single Line Comments
 Single line comments will ignore the complete one line. We have
-to add `--` in the start to represent it is a comment.
+to add `--` in the start to represent it is a comment. If the comment 
+is added at the end of the query, then the query will
+ignore only the comment part and not the query
 ```sql
 MariaDB [dbms_sample]> --create table with name as char with the length of 25 and register number with the integer type
 MariaDB [dbms_sample]> CREATE TABLE student (name char(25), registerName int);
@@ -295,9 +298,10 @@ Query OK, 0 rows affected (0.714 sec)
 ```
 Here the SQL ignored the first line completely.
 
-#### Multi Line Comments
+#### Multi Line Comment
 Multi line comment will ignore some part of lines with
-`/*COMMENT*/`. we can ignore only some part of text in one line which will not consider the full line as comment
+`/*COMMENT*/` as syntax. we can ignore only some part of text in one line which will not
+consider the full line as comment
 ```sql
 MariaDB [dbms_sample]> DESC student /*describing the table*/;
 +--------------+----------+------+-----+---------+-------+
@@ -309,7 +313,7 @@ MariaDB [dbms_sample]> DESC student /*describing the table*/;
 2 rows in set (0.110 sec)
 ```
 
-Here the `/*describing the table*/` part is ignored
+Here `/*describing the table*/` part is ignored
 ```sql
 MariaDB [dbms_sample]> /* Insert 2 students data inside the student table
    /*> Name: Manoj, Reg No: 40110901
@@ -347,10 +351,10 @@ constraints the two or more column at same time
 - `NOT NULL`
 - `FOREIGN KEY`
 - `ALTERNATE KEY`
-- `COMPOSITE KEY` (Table constraint)
+- `COMPOSITE KEY` | (Table constraint)
 
 #### NOT NULL
-`NOT NULL` will not allow null values in the specified column
+`NOT NULL` will not allow empty data in the specified column
 ```sql
 MariaDB [dbms_sample]> CREATE TABLE student (registerNo int(8) NOT NULL, name char(30));
 Query OK, 0 rows affected (0.197 sec)
@@ -379,7 +383,7 @@ ERROR 1062 (23000): Duplicate entry '40110901' for key 'registerNumber'
 
 #### ALTERNATE KEY
 Alternate key is method to have one or more columns has unique to represent one tuple.
-but all the unique key can't have `PRIMARY KEY`. `PRIMARY KEY` is allotted to only one column
+but all the unique key aren't `PRIMARY KEY`. `PRIMARY KEY` is strictly allocated to only one column
 
 #### PRIMARY KEY
 `PRIMARY KEY` Constraint will not allow duplication in the specified column. Primary key is allowed to only one column
@@ -428,7 +432,7 @@ MariaDB [dbms_sample]> SELECT * FROM college;
 ```
 
 #### CHECK
-`CHECK` is a keyword to allow only the specified data for a particular table
+`CHECK` is a keyword to allow only the specified data for a particular column
 ```sql
 MariaDB [dbms_sample]> CREATE TABLE batch24 (registerNumber int, age int(2) CHECK (age = 19));
 Query OK, 0 rows affected (0.315 sec)
@@ -441,7 +445,7 @@ ERROR 4025 (23000): CONSTRAINT `batch24.age` failed for `dbms_sample`.`batch24`
 ```
 
 #### FOREIGN KEY
-`FOREIGN KEY` is used to take only the primary key values presented in mentioned column. This values can be duplicated but it should contain in derived table
+`FOREIGN KEY` is used to take only the primary key values presented in mentioned column. This values can be duplicated but it should contain the data in the derived table
 
 ```sql
 MariaDB [dbms_sample]> desc student2;
@@ -482,7 +486,7 @@ ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint f
 ```
 
 #### COMPOSITE KEY
-`COMPOSITE KEY` is a method to assign constraints at the end of table. where either two or more column should have different data from previous. At least one column should have different value. In the below queries, registerNo and mobileNo column combines and makes UNIQUE. We can also use `PRIMARY KEY` because two or more columns will be treated as one `PRIMARY KEY` column
+`COMPOSITE KEY` is a method to assign constraints for the columns. It is mentioned at the last while creating a new table. where either two or more column should have different data from previous tuples. In the below queries, registerNo and mobileNo column combines and makes a UNIQUE key. We can also use `PRIMARY KEY` in this columns because two or more columns are treated as one `PRIMARY KEY` column
 `Eg: registerNo-mobileNo (40110901-1212101920)`
 
 
@@ -524,7 +528,7 @@ MariaDB [dbms_sample]> SELECT * FROM student3 WHERE registerNo=40110901;
 ```
 
 #### AND
-`AND` is a keyword used to check between two condition. It will be will true, when two condition satisfies
+`AND` is a keyword used to check between two condition. It will be true, when two condition satisfies
 ```sql
 MariaDB [dbms_sample]> SELECT * FROM student3;
 +------------+------------+------------+
@@ -545,7 +549,7 @@ MariaDB [dbms_sample]> SELECT * FROM student3 WHERE registerNo=40110901 AND mobi
 ```
 
 #### OR
-`AND` is a keyword used to check between two condition. It will be will true, when at least one condition is satisfied
+`AND` is a keyword used to check between two condition. It will be true, when at least one condition is satisfied
 ```sql
 MariaDB [dbms_sample]> SELECT * FROM student3;
 +------------+------------+------------+
